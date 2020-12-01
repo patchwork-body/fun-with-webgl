@@ -2,6 +2,7 @@ const path = require('path');
 
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const SRC_DIR = path.resolve(path.join(process.cwd(), 'src'));
@@ -29,6 +30,20 @@ module.exports = {
 
   plugins: [
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.join(EXAMPLE_DIR, 'style.css'),
+          to: BUILD_DIR,
+          flatten: true,
+        },
+        {
+          from: path.join(EXAMPLE_DIR, 'static'),
+          to: BUILD_DIR,
+          flatten: true,
+        },
+      ],
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(EXAMPLE_DIR, 'index.html'),
@@ -50,6 +65,7 @@ module.exports = {
 
   devServer: {
     contentBase: BUILD_DIR,
+    publicPath: '',
     compress: true,
 
     host: '0.0.0.0',
