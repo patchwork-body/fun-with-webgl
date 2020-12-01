@@ -11,7 +11,10 @@ const BUILD_DIR = path.resolve(path.join(process.cwd(), 'build'));
 module.exports = {
   entry: {
     lib: path.join(SRC_DIR, 'index.ts'),
-    example: { import: path.join(EXAMPLE_DIR, 'index.js'), dependOn: 'lib' },
+    example: {
+      import: path.join(EXAMPLE_DIR, 'index.js'),
+      dependOn: 'lib',
+    },
   },
   output: {
     path: BUILD_DIR,
@@ -28,8 +31,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(EXAMPLE_DIR, 'index.pug'),
-      favicon: path.join(EXAMPLE_DIR, 'favicon.png'),
+      template: path.join(EXAMPLE_DIR, 'index.html'),
       filename: 'index.html',
     }),
   ],
