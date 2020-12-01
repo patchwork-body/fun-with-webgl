@@ -13,7 +13,7 @@ module.exports = {
   entry: {
     lib: path.join(SRC_DIR, 'index.ts'),
     example: {
-      import: path.join(EXAMPLE_DIR, 'index.js'),
+      import: path.join(EXAMPLE_DIR, 'index.ts'),
       dependOn: 'lib',
     },
   },

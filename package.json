@@ -1,5 +1,5 @@
 {
-  "name": "fun-with-webgl",
+  "name": "webgl-lib",
   "version": "0.0.1",
   "description": "learn WEBGL 2.0",
   "main": "src/index.ts",
