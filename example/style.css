@@ -9,4 +9,5 @@ body {
   align-items: center;
   margin: auto;
   background-color: rgb(136, 136, 136);
+  height: 100vh;
 }
