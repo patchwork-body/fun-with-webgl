@@ -25,7 +25,7 @@ module.exports = {
 
   // don't forget about dots...
   resolve: {
-    extensions: ['.ts', '.js', '.html', '.css'],
+    extensions: ['.ts', '.js', '.html', '.css', '.vs', '.fs'],
   },
 
   plugins: [
@@ -55,7 +55,11 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        use: ['awesome-typescript-loader'],
+        loader: 'awesome-typescript-loader',
+      },
+      {
+        test: /\.(vs|fs)$/,
+        loader: 'shader-loader',
       },
     ],
   },
