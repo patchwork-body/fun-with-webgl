@@ -17,7 +17,9 @@
 		"ms-vscode.vscode-typescript-tslint-plugin",
 		"esbenp.prettier-vscode",
 		"rvest.vs-code-prettier-eslint",
-		"editorconfig.editorconfig"
+		"editorconfig.editorconfig",
+		"cadenas.vscode-glsllint",
+		"circledev.glsl-canvas"
 	],
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
