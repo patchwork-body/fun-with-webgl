@@ -1,5 +1,8 @@
 import { initGlInstance } from 'webgl-lib';
 
+// import pointVertexShader from './point.vs';
+// import pointFragmentShader from './point.fs';
+
 const gl = initGlInstance('js-canvas');
 
 if (gl) {
