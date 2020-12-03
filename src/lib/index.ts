@@ -1,59 +1,106 @@
+import {
+  clearWebGLViewport,
+  getWebGLContext,
+  GLclampf4,
+  resizeWebGLViewport,
+  setWebGLViewportClearColor,
+  drawPoint,
+} from './common';
+import {
+  createFragmentShader,
+  createVertextShader,
+  createWebGLProgram,
+} from './shader';
+
 interface IGlInstance {
-  setClearColor: (
-    red: GLclampf,
-    green: GLclampf,
-    blue: GLclampf,
-    alpha: GLclampf,
-  ) => IGlInstance;
+  createShader: (type: ShaderType, source: string) => IGlInstance;
+  createProgram: (debug?: boolean) => IGlInstance;
+  setClearColor: (color: GLclampf4) => IGlInstance;
   clear: () => IGlInstance;
   resize: (width: number, height: number) => IGlInstance;
+  draw: () => IGlInstance;
 }
 
-type GLclampf4 = [GLclampf, GLclampf, GLclampf, GLclampf];
+enum ShaderType {
+  Vertex,
+  Fragment,
+}
 
-const initGlInstance = (canvasId: string): IGlInstance | null => {
-  let _clearColor: GLclampf4;
+const glLib = (canvasID: string): IGlInstance | null => {
+  let vertexShader: WebGLShader | null = null;
+  let fragmentShader: WebGLShader | null = null;
+  let program: WebGLProgram | null = null;
 
-  const canvasElement = document.getElementById(canvasId) as HTMLCanvasElement;
-  const webGlContext = canvasElement.getContext('webgl2');
+  const result = getWebGLContext(canvasID);
 
-  if (!webGlContext) {
-    console.error('WebGL context is not available');
-    return null;
+  if (!result) {
+    return result;
   }
 
-  const setClearColor: IGlInstance['setClearColor'] = (
-    red,
-    green,
-    blue,
-    alpha,
-  ) => {
-    _clearColor = [red, green, blue, alpha];
-    webGlContext.clearColor(..._clearColor);
+  const [canvasElement, glContext] = result;
+
+  const setClearColor = (color: GLclampf4) => {
+    setWebGLViewportClearColor(glContext, color);
     return methods;
   };
 
-  const clear: IGlInstance['clear'] = () => {
-    webGlContext.clear(
-      webGlContext.COLOR_BUFFER_BIT | webGlContext.DEPTH_BUFFER_BIT,
+  const clear = () => {
+    clearWebGLViewport(glContext);
+    return methods;
+  };
+
+  const resize = (width: number, height: number) => {
+    resizeWebGLViewport(canvasElement, glContext, [width, height]);
+    return methods;
+  };
+
+  const createShader = (type: ShaderType, source: string) => {
+    switch (type) {
+      case ShaderType.Vertex:
+        vertexShader = createVertextShader(glContext, source);
+        break;
+      case ShaderType.Fragment:
+        fragmentShader = createFragmentShader(glContext, source);
+        break;
+    }
+
+    return methods;
+  };
+
+  const createProgram = (debug = true) => {
+    if (!(vertexShader && fragmentShader)) {
+      console.error('Shaders was not created');
+      return methods;
+    }
+
+    program = createWebGLProgram(
+      glContext,
+      vertexShader,
+      fragmentShader,
+      debug,
     );
     return methods;
   };
 
-  const resize: IGlInstance['resize'] = (width, height) => {
-    canvasElement.style.setProperty('width', width.toString());
-    canvasElement.style.setProperty('height', height.toString());
-    canvasElement.width = width;
-    canvasElement.height = height;
+  const draw = () => {
+    if (!program) {
+      console.error('Program was not created');
+      return methods;
+    }
 
-    webGlContext.viewport(0, 0, width, height);
-
+    drawPoint(glContext, program);
     return methods;
   };
 
-  const methods = { setClearColor, clear, resize };
-
+  const methods = {
+    setClearColor,
+    clear,
+    resize,
+    createShader,
+    createProgram,
+    draw,
+  };
   return methods;
 };
 
-export { initGlInstance };
+export { glLib, ShaderType };
