@@ -1,19 +1,20 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-import { glLib, ShaderType } from 'webgl-lib';
+import { World, Scene, Point } from 'webgl-lib';
 
-// @ts-ignore
-import pointVertexShader from './point.vs';
-// @ts-ignore
-import pointFragmentShader from './point.fs';
+const world = new World({
+  id: 'js-canvas',
+  width: 800,
+  height: 600,
+  clearColor: [0.0, 0.0, 0.0],
+  autoResize: true,
+});
 
-const gl = glLib('js-canvas');
+const scene = new Scene({ name: 'red-point' });
+const point = new Point({
+  name: 'red-point',
+  position: [0.0, 0.0, 0.0],
+  size: 10.0,
+});
 
-if (gl) {
-  gl.setClearColor([1.0, 1.0, 1.0, 1.0])
-    .resize(800, 600)
-    .clear()
-    .createShader(ShaderType.Vertex, pointVertexShader)
-    .createShader(ShaderType.Fragment, pointFragmentShader)
-    .createProgram()
-    .draw();
-}
+scene.addComponent(point);
+world.addScene(scene);
+world.startScene('red-point');

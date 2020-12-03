@@ -1,22 +1,22 @@
 const createVertextShader = (
   gl: WebGL2RenderingContext,
   source: string,
-): WebGLShader | null => {
-  const shader = gl.createShader(gl.VERTEX_SHADER);
-  if (shader) createShader(gl, shader, source);
+): WebGLShader => {
+  const shader = gl.createShader(gl.VERTEX_SHADER) as WebGLShader;
+  compileShader(gl, shader, source);
   return shader;
 };
 
 const createFragmentShader = (
   gl: WebGL2RenderingContext,
   source: string,
-): WebGLShader | null => {
-  const shader = gl.createShader(gl.FRAGMENT_SHADER);
-  if (shader) createShader(gl, shader, source);
+): WebGLShader => {
+  const shader = gl.createShader(gl.FRAGMENT_SHADER) as WebGLShader;
+  compileShader(gl, shader, source);
   return shader;
 };
 
-const createShader = (
+const compileShader = (
   gl: WebGL2RenderingContext,
   shader: WebGLShader,
   source: string,
@@ -30,13 +30,8 @@ const createWebGLProgram = (
   vertexShader: WebGLShader,
   fragmentShader: WebGLShader,
   debug = true,
-): WebGLProgram | null => {
-  const program = gl.createProgram();
-
-  if (!program) {
-    console.error('Cannot create programm');
-    return null;
-  }
+): WebGLProgram => {
+  const program = gl.createProgram() as WebGLProgram;
 
   gl.attachShader(program, vertexShader);
   gl.attachShader(program, fragmentShader);
@@ -47,7 +42,6 @@ const createWebGLProgram = (
       `Error while linking program ${gl.getProgramInfoLog(program)}`,
     );
     gl.deleteProgram(program);
-    return null;
   }
 
   if (debug) {
@@ -58,7 +52,6 @@ const createWebGLProgram = (
         `Error while validating program ${gl.getProgramInfoLog(program)}`,
       );
       gl.deleteProgram(program);
-      return null;
     }
   }
 
@@ -70,9 +63,4 @@ const createWebGLProgram = (
   return program;
 };
 
-export {
-  createShader,
-  createVertextShader,
-  createFragmentShader,
-  createWebGLProgram,
-};
+export { createVertextShader, createFragmentShader, createWebGLProgram };
