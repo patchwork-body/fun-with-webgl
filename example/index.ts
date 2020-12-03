@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { glLib, ShaderType } from 'webgl-lib';
 
+// @ts-ignore
 import pointVertexShader from './point.vs';
+// @ts-ignore
 import pointFragmentShader from './point.fs';
 
 const gl = glLib('js-canvas');
