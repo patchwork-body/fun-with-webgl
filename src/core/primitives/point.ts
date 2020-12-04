@@ -4,7 +4,7 @@ import {
   createFragmentShader,
   createVertextShader,
   createWebGLProgram,
-} from '../shader';
+} from '../utils/shader';
 import { Component, IComponentConfig } from '../component';
 
 interface IPointConfig extends IComponentConfig {
