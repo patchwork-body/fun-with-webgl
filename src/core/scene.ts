@@ -7,9 +7,9 @@ class Scene extends Component {
     super({ name: config.name });
   }
 
-  start(gl: WebGL2RenderingContext): void {
+  render(gl: WebGL2RenderingContext): void {
     this.clearScene(gl);
-    this.render(gl);
+    super.render(gl);
   }
 
   clearScene(gl: WebGL2RenderingContext): void {

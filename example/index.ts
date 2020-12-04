@@ -1,6 +1,7 @@
-import { World, Scene, Point } from 'webgl-lib';
+import { World, Scene, Point, Mouse } from 'webgl-lib';
 
 const world = new World({
+  name: 'main-world',
   id: 'js-canvas',
   width: 800,
   height: 600,
@@ -8,13 +9,22 @@ const world = new World({
   autoResize: true,
 });
 
-const scene = new Scene({ name: 'red-point' });
-const point = new Point({
-  name: 'red-point',
-  position: [0.0, 0.0, 0.0],
-  size: 10.0,
+let index = 0;
+
+const scene = new Scene({ name: 'red-point-scene' });
+const mouse = new Mouse({ name: 'mouse' });
+
+world.addComponent(scene);
+world.addComponent(mouse);
+
+mouse.register((x, y) => {
+  scene.addComponent(
+    new Point({
+      name: `red-point-${++index}`,
+      position: [x, y, 0.0],
+      size: 10.0,
+    }),
+  );
 });
 
-scene.addComponent(point);
-world.addScene(scene);
-world.startScene('red-point');
+world.startScene('red-point-scene');

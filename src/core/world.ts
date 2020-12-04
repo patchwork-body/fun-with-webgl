@@ -1,6 +1,7 @@
-import { Scene } from './scene';
+import { Component, IComponentConfig } from './component';
+import { renderLoop } from './render_loop';
 
-interface IWorldConfig {
+interface IWorldConfig extends IComponentConfig {
   id: string;
   width: number;
   height: number;
@@ -8,12 +9,13 @@ interface IWorldConfig {
   autoResize: boolean;
 }
 
-class World {
-  private scenes: Record<string, Scene> = {};
-  private canvasElement: HTMLCanvasElement;
-  private gl: WebGL2RenderingContext;
+class World extends Component {
+  public canvasElement: HTMLCanvasElement;
+  public gl: WebGL2RenderingContext;
 
   constructor(config: IWorldConfig) {
+    super({ name: config.name });
+
     this.canvasElement = document.getElementById(
       config.id,
     ) as HTMLCanvasElement;
@@ -32,12 +34,10 @@ class World {
     });
   }
 
-  addScene(scene: Scene): void {
-    this.scenes[scene.name] = scene;
-  }
-
   startScene(name: string): void {
-    this.scenes[name].start(this.gl);
+    renderLoop(() => {
+      this.components[name].render(this.gl);
+    });
   }
 }
 

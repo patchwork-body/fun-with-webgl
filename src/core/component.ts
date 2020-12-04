@@ -3,15 +3,16 @@ interface IComponentConfig {
 }
 
 class Component {
-  private components: Record<string, Component> = {};
-
   public name: string;
+  public parent: Component | null = null;
+  public components: Record<string, Component> = {};
 
   constructor({ name }: IComponentConfig) {
     this.name = name;
   }
 
   addComponent(component: Component): void {
+    component.parent = this;
     this.components[component.name] = component;
   }
 
