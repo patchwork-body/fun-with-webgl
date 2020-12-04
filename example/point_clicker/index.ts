@@ -22,7 +22,7 @@ const initPointClickerGame = (): void => {
     scene.addComponent(
       new Point({
         name: `red-point-${++index}`,
-        position: [x, y, 0.0],
+        position: [x, y],
         size: defineSize(x, y),
         color: defineColor(x, y),
       }),

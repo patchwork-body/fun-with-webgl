@@ -6,43 +6,86 @@ import {
   createWebGLProgram,
 } from '../utils/shader';
 import { Component, IComponentConfig } from '../component';
+import { initBuffer } from '../utils/buffer';
 
 interface IPointConfig extends IComponentConfig {
-  position: [number, number, number];
+  position: [number, number];
   size: number;
   color: [number, number, number];
 }
 
 class Point extends Component {
-  private _position: [number, number, number] = [0.0, 0.0, 0.0];
-  private _size = 1.0;
-  private _color: [number, number, number] = [0.0, 0.0, 0.0];
+  static vertices = new Float32Array([]);
+  static buffer: WebGLBuffer;
+  static program: WebGLProgram;
+  static a_PointPosition: number;
+  static a_PointSize: number;
+  static u_PointColor: WebGLUniformLocation | null = null;
+
+  public position: [number, number] = [0.0, 0.0];
+  public size = 1.0;
+  public color: [number, number, number] = [0.0, 0.0, 0.0];
+
+  private pointNumber = 0;
 
   constructor({ name, position, size, color }: IPointConfig) {
     super({ name });
 
-    this._position = position;
-    this._size = size;
-    this._color = color;
+    this.position = position;
+    this.size = size;
+    this.color = color;
+
+    this._storeVertexPosition(this.position);
   }
 
-  render(gl: WebGL2RenderingContext): void {
+  private _storeVertexPosition(position: [number, number]): void {
+    const arraySize = Point.vertices.length + 2;
+    const vertices = new Float32Array(arraySize);
+
+    vertices.set(Point.vertices, 0);
+    vertices.set(position, Point.vertices.length);
+    this.pointNumber = Point.vertices.length / 2;
+
+    Point.vertices = vertices;
+  }
+
+  init(gl: WebGL2RenderingContext): void {
     const vShader = createVertextShader(gl, vertexShader);
     const fShader = createFragmentShader(gl, fragmentShader);
 
-    const program = createWebGLProgram(gl, vShader, fShader, true);
-    gl.useProgram(program);
+    Point.program = createWebGLProgram(gl, vShader, fShader, true);
+    gl.useProgram(Point.program);
 
-    const pointPosition = gl.getAttribLocation(program, 'a_PointPosition');
-    const pointSize = gl.getAttribLocation(program, 'a_PointSize');
-    const pointColor = gl.getUniformLocation(program, 'u_PointColor');
+    Point.a_PointPosition = gl.getAttribLocation(
+      Point.program,
+      'a_PointPosition',
+    );
+    Point.a_PointSize = gl.getAttribLocation(Point.program, 'a_PointSize');
+    Point.u_PointColor = gl.getUniformLocation(Point.program, 'u_PointColor');
 
-    gl.vertexAttrib3f(pointPosition, ...this._position);
-    gl.vertexAttrib1f(pointSize, this._size);
-    gl.uniform4f(pointColor, ...this._color, 1.0);
+    Point.buffer = initBuffer(gl);
+  }
 
-    gl.drawArrays(gl.POINTS, 0, 1);
+  initComponent = (gl: WebGL2RenderingContext): void => {
+    gl.bufferData(gl.ARRAY_BUFFER, Point.vertices, gl.STATIC_DRAW);
+  };
 
+  render(gl: WebGL2RenderingContext): void {
+    if (!Point.program) {
+      this.init(gl);
+    }
+
+    if (!this.initialized) {
+      this.initComponent(gl);
+    }
+
+    gl.vertexAttribPointer(Point.a_PointPosition, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(Point.a_PointPosition);
+
+    gl.vertexAttrib1f(Point.a_PointSize, this.size);
+    gl.uniform4f(Point.u_PointColor, ...this.color, 1.0);
+
+    gl.drawArrays(gl.POINTS, this.pointNumber, 1);
     super.render(gl);
   }
 }
