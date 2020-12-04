@@ -12,9 +12,13 @@ const BUILD_DIR = path.resolve(path.join(process.cwd(), 'build'));
 module.exports = {
   entry: {
     lib: path.join(SRC_DIR, 'index.ts'),
-    example: {
-      import: path.join(EXAMPLE_DIR, 'index.ts'),
+    'point-clicker': {
+      import: path.join(EXAMPLE_DIR, 'point_clicker', 'index.ts'),
       dependOn: 'lib',
+    },
+    examples: {
+      import: path.join(EXAMPLE_DIR, 'index.ts'),
+      dependOn: ['lib', 'point-clicker'],
     },
   },
   output: {
@@ -46,8 +50,12 @@ module.exports = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
-      template: path.join(EXAMPLE_DIR, 'index.html'),
+      template: path.join(EXAMPLE_DIR, 'index.pug'),
       filename: 'index.html',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(EXAMPLE_DIR, 'point_clicker', 'index.pug'),
+      filename: 'point_clicker.html',
     }),
   ],
 
@@ -60,6 +68,10 @@ module.exports = {
       {
         test: /\.(vs|fs)$/,
         loader: 'shader-loader',
+      },
+      {
+        test: /\.pug$/,
+        loader: 'pug-loader',
       },
     ],
   },
