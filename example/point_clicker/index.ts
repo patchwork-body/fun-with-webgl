@@ -23,11 +23,16 @@ const initPointClickerGame = (): void => {
       new Point({
         name: `red-point-${++index}`,
         position: [x, y, 0.0],
-        size: 10.0,
+        size: defineSize(x, y),
         color: defineColor(x, y),
       }),
     );
   });
+
+  const defineSize = (x: number, y: number) => {
+    const delimiter = 1 + Math.abs(x) + Math.abs(y);
+    return 10.0 / delimiter;
+  };
 
   const defineColor = (x: number, y: number): [number, number, number] => {
     const RED = [1.0, 0.0, 0.0];
@@ -35,7 +40,7 @@ const initPointClickerGame = (): void => {
     const BLUE = [0.0, 0.0, 1.0];
     const YELLOW = [1.0, 1.0, 0.0];
 
-    let color;
+    let color: number[];
 
     if (x > 0 && y > 0) {
       color = RED;
