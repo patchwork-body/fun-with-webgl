@@ -67,7 +67,7 @@ class Point extends Component {
   }
 
   initComponent = (gl: WebGL2RenderingContext): void => {
-    gl.bufferData(gl.ARRAY_BUFFER, Point.vertices, gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, Point.vertices, gl.DYNAMIC_DRAW);
   };
 
   render(gl: WebGL2RenderingContext): void {
