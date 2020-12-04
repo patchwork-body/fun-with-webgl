@@ -1,5 +1,5 @@
 import { Component, IComponentConfig } from './component';
-import { renderLoop } from './render_loop';
+import { renderLoop } from './utils/render_loop';
 
 interface IWorldConfig extends IComponentConfig {
   id: string;
