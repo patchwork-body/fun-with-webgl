@@ -1,4 +1,5 @@
-import { World, Scene, Mouse } from 'webgl-lib';
+import { World, Scene, Mouse, Triangle } from 'webgl-lib';
+import { Vertex } from '../../src/core/utils/vertex';
 
 const initTrianglesGame = (): void => {
   const world = new World({
@@ -13,12 +14,16 @@ const initTrianglesGame = (): void => {
   const sceneName = 'triangles';
   const scene = new Scene({ name: sceneName });
   const mouse = new Mouse({ name: 'mouse' });
+  const triangle = new Triangle({
+    name: 'triangle',
+    position: new Float32Array([]),
+    color: [1.0, 0.0, 0.0],
+  });
+
+  scene.addComponent(triangle);
 
   world.addComponent(scene);
   world.addComponent(mouse);
-
-  // mouse.register((x, y) => {
-  // });
 
   world.startScene(sceneName);
 };

@@ -5,7 +5,7 @@ import {
   createVertextShader,
   createWebGLProgram,
 } from '../utils/shader';
-import { Component, IComponentConfig } from '../component';
+import { RenderComponent, IComponentConfig } from '../component';
 import { initBuffer } from '../utils/buffer';
 
 interface IPointConfig extends IComponentConfig {
@@ -14,8 +14,7 @@ interface IPointConfig extends IComponentConfig {
   color: [number, number, number];
 }
 
-class Point extends Component {
-  static vertices = new Float32Array([]);
+class Point extends RenderComponent {
   static buffer: WebGLBuffer;
   static program: WebGLProgram;
   static a_PointPosition: number;
@@ -26,27 +25,12 @@ class Point extends Component {
   public size = 1.0;
   public color: [number, number, number] = [0.0, 0.0, 0.0];
 
-  private pointNumber = 0;
-
   constructor({ name, position, size, color }: IPointConfig) {
-    super({ name });
+    super({ name, vertices: new Float32Array(position) });
 
     this.position = position;
     this.size = size;
     this.color = color;
-
-    this._storeVertexPosition(this.position);
-  }
-
-  private _storeVertexPosition(position: [number, number]): void {
-    const arraySize = Point.vertices.length + 2;
-    const vertices = new Float32Array(arraySize);
-
-    vertices.set(Point.vertices, 0);
-    vertices.set(position, Point.vertices.length);
-    this.pointNumber = Point.vertices.length / 2;
-
-    Point.vertices = vertices;
   }
 
   init(gl: WebGL2RenderingContext): void {
@@ -67,7 +51,11 @@ class Point extends Component {
   }
 
   initComponent = (gl: WebGL2RenderingContext): void => {
-    gl.bufferData(gl.ARRAY_BUFFER, Point.vertices, gl.DYNAMIC_DRAW);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      this.constructor.prototype.vertices,
+      gl.DYNAMIC_DRAW,
+    );
   };
 
   render(gl: WebGL2RenderingContext): void {
@@ -85,7 +73,7 @@ class Point extends Component {
     gl.vertexAttrib1f(Point.a_PointSize, this.size);
     gl.uniform4f(Point.u_PointColor, ...this.color, 1.0);
 
-    gl.drawArrays(gl.POINTS, this.pointNumber, 1);
+    gl.drawArrays(gl.POINTS, this.elementIndex, 1);
     super.render(gl);
   }
 }
