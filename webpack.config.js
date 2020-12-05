@@ -12,13 +12,17 @@ const BUILD_DIR = path.resolve(path.join(process.cwd(), 'build'));
 module.exports = {
   entry: {
     lib: path.join(SRC_DIR, 'index.ts'),
-    'point-clicker': {
+    pointClicker: {
       import: path.join(EXAMPLE_DIR, 'point_clicker', 'index.ts'),
+      dependOn: 'lib',
+    },
+    triangles: {
+      import: path.join(EXAMPLE_DIR, 'triangles', 'index.ts'),
       dependOn: 'lib',
     },
     examples: {
       import: path.join(EXAMPLE_DIR, 'index.ts'),
-      dependOn: ['lib', 'point-clicker'],
+      dependOn: ['lib', 'pointClicker', 'triangles'],
     },
   },
   output: {
@@ -56,6 +60,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(EXAMPLE_DIR, 'point_clicker', 'index.pug'),
       filename: 'point_clicker.html',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(EXAMPLE_DIR, 'triangles', 'index.pug'),
+      filename: 'triangles.html',
     }),
   ],
 
