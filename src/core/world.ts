@@ -14,7 +14,7 @@ class World extends Component {
   public gl: WebGL2RenderingContext;
 
   constructor(config: IWorldConfig) {
-    super({ name: config.name });
+    super({ name: config.name, group: 'worlds' });
 
     this.canvasElement = document.getElementById(
       config.id,
@@ -36,7 +36,7 @@ class World extends Component {
 
   startScene(name: string): void {
     renderLoop(() => {
-      this.components[name].render(this.gl);
+      this.children[name].render(this.gl);
     });
   }
 }
