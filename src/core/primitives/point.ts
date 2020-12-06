@@ -1,6 +1,7 @@
 import vertexShaderSource from './shaders/point.vs';
 import fragmentShaderSource from './shaders/point.fs';
-import { RenderComponent, IComponentConfig } from '../component';
+import { IComponentConfig } from '../component';
+import { RenderComponent } from '../renders';
 
 interface IPointConfig extends IComponentConfig {
   position: [number, number];

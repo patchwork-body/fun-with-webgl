@@ -4,7 +4,7 @@ type ISceneConfig = IComponentConfig;
 
 class Scene extends Component {
   constructor(config: ISceneConfig) {
-    super({ name: config.name });
+    super({ name: config.name, group: 'scenes' });
   }
 
   render(gl: WebGL2RenderingContext): void {

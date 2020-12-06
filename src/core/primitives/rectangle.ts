@@ -1,6 +1,7 @@
 import vertexShaderSource from './shaders/triangle.vs';
 import fragmentShaderSource from './shaders/triangle.fs';
-import { IComponentConfig, RenderComponent } from '../component';
+import { IComponentConfig } from '../component';
+import { RenderComponent } from '../renders';
 
 interface ITriangleConfig extends IComponentConfig {
   position: Float32Array;
