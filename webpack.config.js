@@ -20,9 +20,13 @@ module.exports = {
       import: path.join(EXAMPLE_DIR, 'triangles', 'index.ts'),
       dependOn: 'lib',
     },
+    rectangle: {
+      import: path.join(EXAMPLE_DIR, 'rectangle', 'index.ts'),
+      dependOn: 'lib',
+    },
     examples: {
       import: path.join(EXAMPLE_DIR, 'index.ts'),
-      dependOn: ['lib', 'pointClicker', 'triangles'],
+      dependOn: ['lib', 'pointClicker', 'triangles', 'rectangle'],
     },
   },
   output: {
@@ -64,6 +68,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(EXAMPLE_DIR, 'triangles', 'index.pug'),
       filename: 'triangles.html',
+    }),
+    new HtmlWebpackPlugin({
+      template: path.join(EXAMPLE_DIR, 'rectangle', 'index.pug'),
+      filename: 'rectangle.html',
     }),
   ],
 
