@@ -1,6 +1,6 @@
-import { World, Scene, Mouse, Triangle } from 'webgl-lib';
+import { World, Scene, Mouse, Rectangle } from 'webgl-lib';
 
-const initTrianglesGame = (): void => {
+const initRectangleGame = (): void => {
   const world = new World({
     name: 'main-world',
     id: 'js-canvas',
@@ -14,9 +14,9 @@ const initTrianglesGame = (): void => {
   const scene = new Scene({ name: sceneName });
   const mouse = new Mouse({ name: 'mouse' });
 
-  const triangle = new Triangle({
-    name: 'triangle',
-    position: new Float32Array([-1.0, -1.0, 0.0, 0.0, 1.0, -1.0]),
+  const triangle = new Rectangle({
+    name: 'rectangle',
+    position: new Float32Array([-0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, -0.5]),
     color: [1.0, 0.0, 0.0],
   });
 
@@ -28,4 +28,4 @@ const initTrianglesGame = (): void => {
   world.startScene(sceneName);
 };
 
-export { initTrianglesGame };
+export { initRectangleGame };
