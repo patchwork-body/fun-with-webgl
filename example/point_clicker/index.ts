@@ -1,9 +1,10 @@
 import { World, Scene, Point, Mouse } from 'webgl-lib';
+import { Vector4 } from '../../src/utils/vector';
 
 const initPointClickerGame = (): void => {
   const world = new World({
     name: 'main-world',
-    id: 'js-canvas',
+    domElementID: 'js-canvas',
     width: 800,
     height: 600,
     clearColor: [0.0, 0.0, 0.0],
@@ -15,18 +16,18 @@ const initPointClickerGame = (): void => {
   const scene = new Scene({ name: 'red-point-scene' });
   const mouse = new Mouse({ name: 'mouse' });
 
-  world.addComponent(scene);
-  world.addComponent(mouse);
+  world.attachChildComponent(scene);
+  world.attachChildComponent(mouse);
 
   mouse.register((x, y) => {
-    scene.addComponent(
-      new Point({
-        name: `red-point-${++index}`,
-        position: [x, y],
-        size: defineSize(x, y),
-        color: defineColor(x, y),
-      }),
-    );
+    const point = new Point({
+      name: `red-point-${++index}`,
+      position: new Vector4(x, y),
+      size: defineSize(x, y),
+      color: defineColor(x, y),
+    });
+
+    scene.attachChildComponent(point);
   });
 
   const defineSize = (x: number, y: number) => {

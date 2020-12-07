@@ -1,18 +1,36 @@
-import { Component, IComponentConfig } from './component';
+import { renderLoop } from '../utils/render_loop';
+import { IBaseComponent, IBaseComponentParams } from './@types/component';
+import { BaseComponent } from './component';
+import { World } from './world';
 
-type ISceneConfig = IComponentConfig;
+class Scene extends BaseComponent<World, IBaseComponent> {
+  static sceneIndex = 0;
+  playing = false;
+  gl: WebGL2RenderingContext | undefined;
 
-class Scene extends Component {
-  constructor(config: ISceneConfig) {
-    super({ name: config.name, group: 'scenes' });
+  constructor({ name = `scene_${Scene.sceneIndex}` }: { name: string }) {
+    super({ name: name, group: 'scenes' });
   }
 
-  render(gl: WebGL2RenderingContext): void {
-    this.clearScene(gl);
-    super.render(gl);
+  play(gl: WebGL2RenderingContext): void {
+    this.gl = gl;
+    this.playing = true;
+    this.componentWillBeRenderedFirstTime(gl);
+
+    renderLoop(() => {
+      this.clear(gl);
+      this.onEachRenderFrame(gl);
+    });
   }
 
-  clearScene(gl: WebGL2RenderingContext): void {
+  attachChildComponent(component: IBaseComponent): void {
+    if (this.playing && this.gl) {
+      component.componentWillBeRenderedFirstTime(this.gl);
+    }
+    super.attachChildComponent(component);
+  }
+
+  clear(gl: WebGL2RenderingContext): void {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   }
 }

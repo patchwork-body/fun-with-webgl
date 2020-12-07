@@ -1,15 +1,16 @@
-import { Component, IComponentConfig } from './component';
-import { renderLoop } from './utils/render_loop';
+import { IBaseComponent, IBaseComponentParams } from './@types/component';
+import { BaseComponent } from './component';
+import { Scene } from './scene';
 
-interface IWorldConfig extends IComponentConfig {
-  id: string;
+interface IWorldConfig extends IBaseComponentParams {
+  domElementID: string;
   width: number;
   height: number;
   clearColor: [number, number, number];
   autoResize: boolean;
 }
 
-class World extends Component {
+class World extends BaseComponent<never, IBaseComponent> {
   public canvasElement: HTMLCanvasElement;
   public gl: WebGL2RenderingContext;
 
@@ -17,7 +18,7 @@ class World extends Component {
     super({ name: config.name, group: 'worlds' });
 
     this.canvasElement = document.getElementById(
-      config.id,
+      config.domElementID,
     ) as HTMLCanvasElement;
 
     this.canvasElement.style.setProperty('width', config.width.toString());
@@ -35,9 +36,10 @@ class World extends Component {
   }
 
   startScene(name: string): void {
-    renderLoop(() => {
-      this.children[name].render(this.gl);
-    });
+    const scene = this._children[name];
+    if (scene instanceof Scene) {
+      scene.play(this.gl);
+    }
   }
 }
 

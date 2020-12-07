@@ -1,15 +1,10 @@
 import vertexShaderSource from './shaders/triangle.vs';
 import fragmentShaderSource from './shaders/triangle.fs';
-import { IComponentConfig } from '../component';
-import { RenderComponent } from '../renders';
+import { Component } from '../core';
+import { Vector4 } from '../utils/vector';
 
-interface ITriangleConfig extends IComponentConfig {
-  position: Float32Array;
-  color: [number, number, number];
-}
-
-class Rectangle extends RenderComponent {
-  public position: Float32Array;
+class Rectangle extends Component {
+  public position: Vector4[];
   public color: [number, number, number];
 
   public vertexShaderSource = vertexShaderSource;
@@ -17,19 +12,27 @@ class Rectangle extends RenderComponent {
   public requireAttribs = ['a_TrianglePosition'];
   public requireUniforms = ['u_TriangleFillColor'];
 
-  constructor({ name, position, color }: ITriangleConfig) {
+  constructor({
+    name,
+    position,
+    color,
+  }: {
+    name: string;
+    position: Vector4[];
+    color: [number, number, number];
+  }) {
     super({ name, vertices: position });
 
     this.position = position;
     this.color = color;
   }
 
-  render(gl: WebGL2RenderingContext): void {
-    super.render(gl);
+  onEachRenderFrame(gl: WebGL2RenderingContext): void {
+    super.onEachRenderFrame(gl);
 
     gl.vertexAttribPointer(
       this.attribs.a_TrianglePosition,
-      2,
+      4,
       gl.FLOAT,
       false,
       0,

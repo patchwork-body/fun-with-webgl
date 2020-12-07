@@ -1,11 +1,8 @@
-import { Component } from '../component';
-import { World } from '../world';
+import { World, BaseComponent } from '../core';
 
-class Mouse extends Component {
-  public parent: World | null = null;
-
+class Mouse extends BaseComponent<World, never> {
   register(cb: (x: number, y: number) => void): void {
-    this.parent?.canvasElement.addEventListener(
+    this._parent?.canvasElement.addEventListener(
       'click',
       (event: MouseEvent) => {
         const [x, y] = this.click(event);

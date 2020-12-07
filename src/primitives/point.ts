@@ -1,16 +1,17 @@
 import vertexShaderSource from './shaders/point.vs';
 import fragmentShaderSource from './shaders/point.fs';
-import { IComponentConfig } from '../component';
-import { RenderComponent } from '../renders';
+import { IBaseComponentParams } from '../core/@types/component';
+import { Component } from '../core';
+import { Vector4 } from '../utils/vector';
 
-interface IPointConfig extends IComponentConfig {
-  position: [number, number];
+interface IPointConfig extends IBaseComponentParams {
+  position: Vector4;
   size: number;
   color: [number, number, number];
 }
 
-class Point extends RenderComponent {
-  public position: [number, number] = [0.0, 0.0];
+class Point extends Component {
+  public position: Vector4;
   public size = 1.0;
   public color: [number, number, number] = [0.0, 0.0, 0.0];
 
@@ -22,7 +23,7 @@ class Point extends RenderComponent {
   constructor({ name, position, size, color }: IPointConfig) {
     super({
       name,
-      vertices: new Float32Array(position),
+      vertices: [position],
     });
 
     this.position = position;
@@ -30,12 +31,10 @@ class Point extends RenderComponent {
     this.color = color;
   }
 
-  render(gl: WebGL2RenderingContext): void {
-    super.render(gl);
-
+  onEachRenderFrame(gl: WebGL2RenderingContext): void {
     gl.vertexAttribPointer(
       this.attribs.a_PointPosition,
-      2,
+      4,
       gl.FLOAT,
       false,
       0,
@@ -47,6 +46,8 @@ class Point extends RenderComponent {
     gl.uniform4f(this.uniforms.u_PointColor, ...this.color, 1.0);
 
     gl.drawArrays(gl.POINTS, this.elementIndex, 1);
+
+    super.onEachRenderFrame(gl);
   }
 }
 
