@@ -10,6 +10,7 @@ import {
   IBaseComponent,
   IBaseComponentParams,
   IComponentParams,
+  IContainerComponentParams,
 } from './@types/component';
 
 class BaseComponent<

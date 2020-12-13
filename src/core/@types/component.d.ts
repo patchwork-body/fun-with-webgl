@@ -32,3 +32,7 @@ interface IComponentParams extends IBaseComponentParams {
 interface IComponent extends IBaseComponent {
   coords: Vector4;
 }
+
+interface IContainerComponentParams extends IBaseComponentParams {
+  position: Vector4;
+}

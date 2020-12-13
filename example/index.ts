@@ -1,17 +1,10 @@
-import { initPointClickerGame } from './point_clicker';
-import { initTrianglesGame } from './triangles';
-import { initRectangleGame } from './rectangle';
+import { initTrianglesGame } from './src/triangle';
+import { initRectangleGame } from './src/rect';
 
-switch (document.title) {
-  case 'Point Clicker':
-    initPointClickerGame();
-    break;
-  case 'Triangles':
-    initTrianglesGame();
-    break;
-  case 'Rectangle':
-    initRectangleGame();
-    break;
-  default:
-    break;
-}
+document.getElementById('triangle')?.addEventListener('click', () => {
+  initTrianglesGame();
+});
+
+document.getElementById('rect')?.addEventListener('click', () => {
+  initRectangleGame();
+});
