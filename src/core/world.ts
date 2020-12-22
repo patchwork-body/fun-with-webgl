@@ -1,4 +1,3 @@
-import { IBaseComponent, IBaseComponentParams } from './@types/component';
 import { BaseComponent } from './component';
 import { Scene } from './scene';
 

@@ -1,6 +1,5 @@
 import vertexShaderSource from './shaders/triangle.vs';
 import fragmentShaderSource from './shaders/triangle.fs';
-import { IBaseComponentParams } from '../core/@types/component';
 import { Component } from '../core';
 import { Vector4 } from '../utils/vector';
 

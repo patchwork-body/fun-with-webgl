@@ -1,5 +1,4 @@
 import { renderLoop } from '../utils/render_loop';
-import { IBaseComponent, IBaseComponentParams } from './@types/component';
 import { BaseComponent } from './component';
 import { World } from './world';
 

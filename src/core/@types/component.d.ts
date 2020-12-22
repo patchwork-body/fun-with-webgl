@@ -1,5 +1,3 @@
-import { Vector4 } from '../../utils/vector';
-
 interface IBaseComponent<
   TParentComponent = IBaseComponent,
   TChildComponent = IBaseComponent
@@ -27,12 +25,4 @@ interface IBaseComponentParams {
 
 interface IComponentParams extends IBaseComponentParams {
   vertices: Vector4[];
-}
-
-interface IComponent extends IBaseComponent {
-  coords: Vector4;
-}
-
-interface IContainerComponentParams extends IBaseComponentParams {
-  position: Vector4;
 }

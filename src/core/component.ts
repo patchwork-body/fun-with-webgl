@@ -6,12 +6,6 @@ import {
   createWebGLProgram,
 } from '../utils/shader';
 import { Vector4 } from '../utils/vector';
-import {
-  IBaseComponent,
-  IBaseComponentParams,
-  IComponentParams,
-  IContainerComponentParams,
-} from './@types/component';
 
 class BaseComponent<
   TParentComponent extends IBaseComponent,

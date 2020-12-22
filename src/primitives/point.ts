@@ -1,6 +1,5 @@
 import vertexShaderSource from './shaders/point.vs';
 import fragmentShaderSource from './shaders/point.fs';
-import { IBaseComponentParams } from '../core/@types/component';
 import { Component } from '../core';
 import { Vector4 } from '../utils/vector';
 
