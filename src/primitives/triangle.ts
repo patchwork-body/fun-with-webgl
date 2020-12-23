@@ -3,11 +3,6 @@ import fragmentShaderSource from './shaders/triangle.fs';
 import { RenderComponent } from '../core';
 import { Vector4 } from '../utils/vector';
 
-interface ITriangleConfig extends IBaseComponentParams {
-  position: Vector4[];
-  color: [number, number, number];
-}
-
 class Triangle extends RenderComponent {
   public position: Vector4[];
   public color: [number, number, number];
