@@ -131,4 +131,6 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   }
 }
 
-export { BaseComponent, RenderComponent };
+class GameObjectComponent extends RenderComponent {}
+
+export { BaseComponent, RenderComponent, GameObjectComponent };
