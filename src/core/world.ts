@@ -1,14 +1,6 @@
 import { BaseComponent } from './component';
 import { Scene } from './scene';
 
-interface IWorldConfig extends IBaseComponentParams {
-  domElementID: string;
-  width: number;
-  height: number;
-  clearColor: [number, number, number];
-  autoResize: boolean;
-}
-
 class World extends BaseComponent<never, IBaseComponent> {
   public canvasElement: HTMLCanvasElement;
   public gl: WebGL2RenderingContext;

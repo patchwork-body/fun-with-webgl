@@ -1,9 +1,9 @@
 import vertexShaderSource from './shaders/triangle.vs';
 import fragmentShaderSource from './shaders/triangle.fs';
-import { Component } from '../core';
+import { RenderComponent } from '../core';
 import { Vector4 } from '../utils/vector';
 
-class Rectangle extends Component {
+class Rectangle extends RenderComponent {
   public position: Vector4[];
   public color: [number, number, number];
 

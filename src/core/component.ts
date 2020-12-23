@@ -1,5 +1,5 @@
 import { initBuffer } from '../utils/buffer';
-import { ComponentTypeError } from '../utils/errors';
+import { RenderComponentTypeError } from '../utils/errors';
 import {
   createFragmentShader,
   createVertextShader,
@@ -47,7 +47,7 @@ class BaseComponent<
       component.parent = this;
       this._children[component.name] = component;
     } else {
-      throw new ComponentTypeError();
+      throw new RenderComponentTypeError();
     }
   }
 
@@ -56,7 +56,7 @@ class BaseComponent<
   }
 }
 
-class Component extends BaseComponent<IBaseComponent, IBaseComponent> {
+class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   vertexShaderSource = '';
   fragmentShaderSource = '';
   requireAttribs: string[] = [];
@@ -131,4 +131,4 @@ class Component extends BaseComponent<IBaseComponent, IBaseComponent> {
   }
 }
 
-export { BaseComponent, Component };
+export { BaseComponent, RenderComponent };

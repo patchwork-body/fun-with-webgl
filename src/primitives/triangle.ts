@@ -1,6 +1,6 @@
 import vertexShaderSource from './shaders/triangle.vs';
 import fragmentShaderSource from './shaders/triangle.fs';
-import { Component } from '../core';
+import { RenderComponent } from '../core';
 import { Vector4 } from '../utils/vector';
 
 interface ITriangleConfig extends IBaseComponentParams {
@@ -8,7 +8,7 @@ interface ITriangleConfig extends IBaseComponentParams {
   color: [number, number, number];
 }
 
-class Triangle extends Component {
+class Triangle extends RenderComponent {
   public position: Vector4[];
   public color: [number, number, number];
 

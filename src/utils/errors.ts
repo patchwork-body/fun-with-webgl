@@ -1,4 +1,4 @@
 class NullBufferError extends Error {}
-class ComponentTypeError extends TypeError {}
+class RenderComponentTypeError extends TypeError {}
 
-export { NullBufferError, ComponentTypeError };
+export { NullBufferError, RenderComponentTypeError };

@@ -1,6 +1,6 @@
 import vertexShaderSource from './shaders/point.vs';
 import fragmentShaderSource from './shaders/point.fs';
-import { Component } from '../core';
+import { RenderComponent } from '../core';
 import { Vector4 } from '../utils/vector';
 
 interface IPointConfig extends IBaseComponentParams {
@@ -9,7 +9,7 @@ interface IPointConfig extends IBaseComponentParams {
   color: [number, number, number];
 }
 
-class Point extends Component {
+class Point extends RenderComponent {
   public position: Vector4;
   public size = 1.0;
   public color: [number, number, number] = [0.0, 0.0, 0.0];
