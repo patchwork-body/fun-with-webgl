@@ -16,6 +16,8 @@ interface IBaseComponent<
 
   attachChildComponent(component: TChildComponent): void;
   detachChildComponent(name: string): void;
+
+  getRootComponent(): IBaseComponent<unknown, unknown>;
 }
 
 interface IBaseComponentParams {
@@ -23,6 +25,4 @@ interface IBaseComponentParams {
   group?: string;
 }
 
-interface IComponentParams extends IBaseComponentParams {
-  vertices: Vector4[];
-}
+type IComponentParams = IBaseComponentParams;

@@ -54,6 +54,16 @@ class BaseComponent<
   detachChildComponent(name: string): void {
     delete this._children[name];
   }
+
+  getRootComponent(): IBaseComponent {
+    let root = this as IBaseComponent;
+
+    while (root?.hasParent) {
+      root = root._parent as IBaseComponent;
+    }
+
+    return root;
+  }
 }
 
 class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
@@ -66,10 +76,8 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   attribs: Record<string, number> = {};
   uniforms: Record<string, WebGLUniformLocation> = {};
 
-  constructor({ name, vertices }: IComponentParams) {
+  constructor({ name }: IComponentParams) {
     super({ name, group: 'render' });
-
-    this.addVertices(vertices);
   }
 
   addVertices(vertices: Vector4[]): void {
@@ -131,6 +139,4 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   }
 }
 
-class GameObjectComponent extends RenderComponent {}
-
-export { BaseComponent, RenderComponent, GameObjectComponent };
+export { BaseComponent, RenderComponent };

@@ -1,11 +1,11 @@
 import { BaseComponent } from './component';
 import { Scene } from './scene';
 
-class World extends BaseComponent<never, IBaseComponent> {
-  public canvasElement: HTMLCanvasElement;
-  public gl: WebGL2RenderingContext;
+class World extends BaseComponent<never, IBaseComponent> implements IWorld {
+  canvasElement: HTMLCanvasElement;
+  gl: WebGL2RenderingContext;
 
-  constructor(config: IWorldConfig) {
+  constructor(config: IWorldParams) {
     super({ name: config.name, group: 'worlds' });
 
     this.canvasElement = document.getElementById(
