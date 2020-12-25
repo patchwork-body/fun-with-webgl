@@ -15,22 +15,26 @@ const initTrianglesGame = (): void => {
   const scene = new Scene({ name: sceneName });
   const mouse = new Mouse({ name: 'mouse' });
 
-  console.log('create triangle');
-  const triangle = new Triangle({
-    name: 'triangle',
+  const gTriangle = new Triangle({
+    name: 'green-triangle',
     position: new Vector4(),
-    color: new Vector4(1.0),
-    size: 10,
+    color: new Vector4(0.4, 1.0),
+    size: 15,
   });
 
-  console.log('attacing triangle');
-  scene.attachChildComponent(triangle);
+  const rTriangle = new Triangle({
+    name: 'red-triangle',
+    position: new Vector4(0.5),
+    color: new Vector4(1.0),
+    size: 4,
+  });
 
-  console.log('attacing scene');
+  scene.attachChildComponent(gTriangle);
+  scene.attachChildComponent(rTriangle);
+
   world.attachChildComponent(scene);
   world.attachChildComponent(mouse);
 
-  console.log('scene start');
   world.startScene(sceneName);
 };
 

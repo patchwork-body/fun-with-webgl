@@ -1,9 +1,10 @@
 interface IPolygonParams extends IBaseComponentParams {
-  position: Vector4;
+  position?: Vector4;
 }
 
-interface ITriangleParams extends IBaseComponentParams {
-  position: Vector4;
-  size?: number;
-  color?: Vector4;
+interface ITriangleParams extends IPolygonParams {
+  color: Vector4;
+  size: number;
 }
+
+type IRectangleParams = ITriangleParams;

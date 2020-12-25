@@ -1,47 +1,32 @@
-// import vertexShaderSource from './shaders/triangle.vs';
-// import fragmentShaderSource from './shaders/triangle.fs';
-// import { RenderComponent } from '../core';
-// import { Vector4 } from '../utils/vector';
+import { Vector4 } from '../utils/vector';
+import { Polygon } from './polygon';
 
-// class Rectangle extends RenderComponent {
-//   public position: Vector4[];
-//   public color: [number, number, number];
+class Rectangle extends Polygon {
+  private _color!: Vector4;
+  private _size!: number;
 
-//   public vertexShaderSource = vertexShaderSource;
-//   public fragmentShaderSource = fragmentShaderSource;
-//   public requireAttribs = ['a_TrianglePosition'];
-//   public requireUniforms = ['u_TriangleFillColor'];
+  constructor({ name, position, color, size }: IRectangleParams) {
+    super({ name, position });
 
-//   constructor({
-//     name,
-//     position,
-//     color,
-//   }: {
-//     name: string;
-//     position: Vector4[];
-//     color: [number, number, number];
-//   }) {
-//     super({ name, vertices: position });
+    if (color) this._color = color;
+    if (size) this._size = size;
+  }
 
-//     this.position = position;
-//     this.color = color;
-//   }
+  get color(): Vector4 {
+    return this._color;
+  }
 
-//   onEachRenderFrame(gl: WebGL2RenderingContext): void {
-//     super.onEachRenderFrame(gl);
+  get size(): number {
+    return this._size;
+  }
 
-//     gl.vertexAttribPointer(
-//       this.attribs.a_TrianglePosition,
-//       4,
-//       gl.FLOAT,
-//       false,
-//       0,
-//       0,
-//     );
-//     gl.enableVertexAttribArray(this.attribs.a_TrianglePosition);
-//     gl.uniform4f(this.uniforms.u_TriangleFillColor, ...this.color, 1.0);
-//     gl.drawArrays(gl.TRIANGLE_FAN, this.elementIndex, 4);
-//   }
-// }
+  get verticesCount(): number {
+    return 4;
+  }
 
-// export { Rectangle };
+  getRenderMethod(gl: WebGL2RenderingContext): number {
+    return gl.TRIANGLE_FAN;
+  }
+}
+
+export { Rectangle };

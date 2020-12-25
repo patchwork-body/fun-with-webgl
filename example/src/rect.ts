@@ -17,13 +17,9 @@ const initRectangleGame = (): void => {
 
   const rect = new Rectangle({
     name: 'rectangle',
-    position: [
-      new Vector4(-0.5, 0.5),
-      new Vector4(0.5, 0.5),
-      new Vector4(0.5, -0.5),
-      new Vector4(-0.5, -0.5),
-    ],
-    color: [1.0, 0.0, 0.0],
+    position: new Vector4(),
+    color: new Vector4(1.0),
+    size: 10,
   });
 
   scene.attachChildComponent(rect);
