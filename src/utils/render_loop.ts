@@ -1,9 +1,13 @@
-const renderLoop = (cb: (timestamp: number) => void): void => {
+const renderLoop = (cb: (timestamp: number) => boolean): number => {
   const loop = (timestamp: number) => {
-    cb(timestamp);
-    window.requestAnimationFrame(loop);
+    const shouldProceed = cb(timestamp);
+
+    if (shouldProceed) {
+      window.requestAnimationFrame(loop);
+    }
   };
-  window.requestAnimationFrame(loop);
+
+  return window.requestAnimationFrame(loop);
 };
 
 export { renderLoop };

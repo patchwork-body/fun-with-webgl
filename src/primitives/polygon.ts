@@ -31,7 +31,7 @@ class Polygon extends RenderComponent {
     return 10;
   }
 
-  getVerticies(): Vector4[] {
+  replaceVerticies(): void {
     const w = 1.0;
     const root = this.getRootComponent() as World;
 
@@ -43,7 +43,7 @@ class Polygon extends RenderComponent {
 
     const step = 360 / this.verticesCount;
 
-    return new Array(this.verticesCount)
+    const newVertices = new Array(this.verticesCount)
       .fill(null)
       .map((_, index) => step * index)
       .map(angle => {
@@ -52,19 +52,22 @@ class Polygon extends RenderComponent {
         const x = ratioX * Math.sin(radianAngle);
         const y = ratioY * Math.cos(radianAngle);
         const z = 0.0;
-        console.log(x, ratioX, y, ratioY);
 
         return new Vector4(x, y, z, w);
       });
+
+    // drop prevision vertices
+    this.vertices = new Float32Array([]);
+    this.addVertices(newVertices);
   }
 
   getRenderMethod(_gl: WebGL2RenderingContext): number {
     throw new NotImplementedError();
   }
 
-  preRender(gl: WebGL2RenderingContext): void {
-    this.addVertices(this.getVerticies());
-    super.preRender(gl);
+  componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
+    this.replaceVerticies();
+    super.componentWillBeRenderedFirstTime(gl);
   }
 
   onEachRenderFrame(gl: WebGL2RenderingContext): void {
@@ -80,11 +83,12 @@ class Polygon extends RenderComponent {
     );
 
     gl.enableVertexAttribArray(this.attribs.a_Position);
+    console.log(this.name);
     gl.uniform4f(this.uniforms.u_FillColor, ...this.color.asArray());
     gl.drawArrays(
       this.getRenderMethod(gl),
       this.elementIndex,
-      this.constructor.prototype.vertices.length / 4,
+      this.vertices.length / 4, // four because x, y, z, w
     );
   }
 }

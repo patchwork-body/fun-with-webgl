@@ -72,7 +72,10 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   requireAttribs: string[] = [];
   requireUniforms: string[] = [];
 
+  vertices = new Float32Array([]);
   elementIndex = 0;
+  program!: WebGLProgram;
+  buffer!: WebGLBuffer;
   attribs: Record<string, number> = {};
   uniforms: Record<string, WebGLUniformLocation> = {};
 
@@ -81,8 +84,7 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   }
 
   addVertices(vertices: Vector4[]): void {
-    const prevVertices =
-      this.constructor.prototype.vertices || new Float32Array([]);
+    const prevVertices = this.vertices;
     const arraySize = prevVertices.length + vertices.length * 4;
 
     const nextVertices = new Float32Array(arraySize);
@@ -94,48 +96,36 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
       prevVertices.length,
     );
 
-    this.constructor.prototype.vertices = nextVertices;
+    this.vertices = nextVertices;
     this.elementIndex =
       (nextVertices.length - vertices.length * 4) / (vertices.length * 4);
   }
 
   componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
-    this.preRender(gl);
+    const vShader = createVertextShader(gl, this.vertexShaderSource);
+    const fShader = createFragmentShader(gl, this.fragmentShaderSource);
+    const program = createWebGLProgram(gl, vShader, fShader, true);
+    gl.useProgram(program);
 
-    gl.bufferData(
-      gl.ARRAY_BUFFER,
-      this.constructor.prototype.vertices,
-      gl.DYNAMIC_DRAW,
-    );
+    const buffer = initBuffer(gl);
 
-    super.componentWillBeRenderedFirstTime(gl);
-  }
-
-  preRender(gl: WebGL2RenderingContext): void {
-    let program = this.constructor.prototype.program;
-
-    if (!program) {
-      const vShader = createVertextShader(gl, this.vertexShaderSource);
-      const fShader = createFragmentShader(gl, this.fragmentShaderSource);
-      program = createWebGLProgram(gl, vShader, fShader, true);
-      gl.useProgram(program);
-
-      const buffer = initBuffer(gl);
-
-      this.constructor.prototype.program = program;
-      this.constructor.prototype.buffer = buffer;
-    }
+    this.program = program;
+    this.buffer = buffer;
 
     this.requireAttribs.forEach(attrib => {
-      this.attribs[attrib] = gl.getAttribLocation(program, attrib);
+      this.attribs[attrib] = gl.getAttribLocation(this.program, attrib);
     });
 
     this.requireUniforms.forEach(uniform => {
       this.uniforms[uniform] = gl.getUniformLocation(
-        program,
+        this.program,
         uniform,
       ) as WebGLUniformLocation;
     });
+
+    gl.bufferData(gl.ARRAY_BUFFER, this.vertices, gl.DYNAMIC_DRAW);
+
+    super.componentWillBeRenderedFirstTime(gl);
   }
 }
 

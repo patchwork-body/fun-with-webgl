@@ -20,6 +20,10 @@ class Triangle extends Polygon {
     return this._size;
   }
 
+  get verticesCount(): number {
+    return 3;
+  }
+
   getRenderMethod(gl: WebGL2RenderingContext): number {
     return gl.TRIANGLES;
   }

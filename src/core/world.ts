@@ -4,6 +4,7 @@ import { Scene } from './scene';
 class World extends BaseComponent<never, IBaseComponent> implements IWorld {
   canvasElement: HTMLCanvasElement;
   gl: WebGL2RenderingContext;
+  activeScene = '';
 
   constructor(config: IWorldParams) {
     super({ name: config.name, group: 'worlds' });
@@ -28,8 +29,19 @@ class World extends BaseComponent<never, IBaseComponent> implements IWorld {
 
   startScene(name: string): void {
     const scene = this._children[name];
+
     if (scene instanceof Scene) {
+      this.stopScene(this.activeScene);
+      this.activeScene = scene.name;
       scene.play(this.gl);
+    }
+  }
+
+  stopScene(name: string): void {
+    const scene = this._children[name];
+
+    if (scene instanceof Scene) {
+      scene.stop();
     }
   }
 }

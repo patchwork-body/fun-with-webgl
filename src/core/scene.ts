@@ -7,19 +7,34 @@ class Scene extends BaseComponent<World, IBaseComponent> {
   playing = false;
   gl: WebGL2RenderingContext | undefined;
 
+  private renderLoopID!: number;
+
   constructor({ name = `scene_${Scene.sceneIndex}` }: { name: string }) {
     super({ name: name, group: 'scenes' });
   }
 
   play(gl: WebGL2RenderingContext): void {
-    this.gl = gl;
-    this.playing = true;
-    this.componentWillBeRenderedFirstTime(gl);
+    if (!this.playing) {
+      this.gl = gl;
+      this.playing = true;
+      this.componentWillBeRenderedFirstTime(gl);
 
-    renderLoop(() => {
-      this.clear(gl);
-      this.onEachRenderFrame(gl);
-    });
+      this.renderLoopID = renderLoop(() => {
+        this.clear(gl);
+        this.onEachRenderFrame(gl);
+        return this.playing;
+      });
+    } else {
+      this.stop();
+      this.play(gl);
+    }
+  }
+
+  stop(): void {
+    if (this.playing) {
+      this.playing = false;
+      window.cancelAnimationFrame(this.renderLoopID);
+    }
   }
 
   attachChildComponent(component: IBaseComponent): void {
