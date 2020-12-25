@@ -3,7 +3,7 @@ import fragmentShaderSource from './shaders/polygon.fs';
 import { RenderComponent, World } from '../core';
 import { NotImplementedError } from '../utils/errors';
 import { Vector4 } from '../utils/vector';
-import { Matrix4 } from '../utils/matrix';
+import { createTranslateMatrix } from '../transformations/translate';
 
 class Polygon extends RenderComponent {
   position = new Vector4();
@@ -13,7 +13,7 @@ class Polygon extends RenderComponent {
   vertexShaderSource = vertexShaderSource;
   fragmentShaderSource = fragmentShaderSource;
   requireAttribs = ['a_Position'];
-  requireUniforms = ['u_FillColor', 'u_translateMatrix'];
+  requireUniforms = ['u_FillColor', 'u_TransformMatrix'];
 
   constructor({ name }: IPolygonParams) {
     super({ name });
@@ -35,8 +35,8 @@ class Polygon extends RenderComponent {
     return 0;
   }
 
-  get translateMatrixData(): Matrix4 {
-    return new Matrix4();
+  get translateMatrixData(): Float32Array {
+    return createTranslateMatrix();
   }
 
   updateVerticies(): void {
@@ -84,9 +84,9 @@ class Polygon extends RenderComponent {
     gl.enableVertexAttribArray(this.attribs.a_Position);
     gl.uniform4f(this.uniforms.u_FillColor, ...this.color.asArray());
     gl.uniformMatrix4fv(
-      this.uniforms.u_translateMatrix,
+      this.uniforms.u_TransformMatrix,
       false,
-      this.translateMatrixData.asArray(),
+      this.translateMatrixData,
     );
     gl.drawArrays(
       this.getRenderMethod(gl),

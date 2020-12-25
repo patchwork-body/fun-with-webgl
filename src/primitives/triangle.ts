@@ -1,3 +1,4 @@
+import { createTranslateMatrix } from '../transformations/translate';
 import { Vector4 } from '../utils/vector';
 import { Polygon } from './polygon';
 
@@ -22,6 +23,10 @@ class Triangle extends Polygon {
 
   get verticesCount(): number {
     return 3;
+  }
+
+  get translateMatrixData(): Float32Array {
+    return createTranslateMatrix();
   }
 
   getRenderMethod(gl: WebGL2RenderingContext): number {
