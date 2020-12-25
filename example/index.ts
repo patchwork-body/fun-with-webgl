@@ -23,7 +23,7 @@ triangleScene.attachChildComponent(triangle);
 const rectangleScene = new Scene({ name: 'rectangle' });
 
 const rectangle = new Rectangle({
-  name: 'yellow-rect',
+  name: 'orange-rect',
   position: new Vector4(),
   color: new Vector4(1.0, 0.7),
   size: 200,
