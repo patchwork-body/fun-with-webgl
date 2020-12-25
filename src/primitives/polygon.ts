@@ -3,17 +3,17 @@ import fragmentShaderSource from './shaders/polygon.fs';
 import { RenderComponent, World } from '../core';
 import { NotImplementedError } from '../utils/errors';
 import { Vector4 } from '../utils/vector';
+import { Matrix4 } from '../utils/matrix';
 
 class Polygon extends RenderComponent {
   position = new Vector4();
   originPosition = new Vector4();
-  angle = 0;
   renderMethod = null;
 
   vertexShaderSource = vertexShaderSource;
   fragmentShaderSource = fragmentShaderSource;
   requireAttribs = ['a_Position'];
-  requireUniforms = ['u_FillColor'];
+  requireUniforms = ['u_FillColor', 'u_translateMatrix'];
 
   constructor({ name }: IPolygonParams) {
     super({ name });
@@ -31,7 +31,15 @@ class Polygon extends RenderComponent {
     return 10;
   }
 
-  replaceVerticies(): void {
+  get angle(): number {
+    return 0;
+  }
+
+  get translateMatrixData(): Matrix4 {
+    return new Matrix4();
+  }
+
+  updateVerticies(): void {
     const w = 1.0;
     const root = this.getRootComponent() as World;
 
@@ -45,7 +53,7 @@ class Polygon extends RenderComponent {
 
     const newVertices = new Array(this.verticesCount)
       .fill(null)
-      .map((_, index) => step * index)
+      .map((_, index) => step * index + this.angle)
       .map(angle => {
         const radianAngle = (Math.PI * angle) / 180;
 
@@ -66,30 +74,27 @@ class Polygon extends RenderComponent {
   }
 
   componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
-    this.replaceVerticies();
+    this.updateVerticies();
     super.componentWillBeRenderedFirstTime(gl);
   }
 
   onEachRenderFrame(gl: WebGL2RenderingContext): void {
-    super.onEachRenderFrame(gl);
-
-    gl.vertexAttribPointer(
-      this.attribs.a_TrianglePosition,
-      4,
-      gl.FLOAT,
-      false,
-      0,
-      0,
-    );
+    gl.vertexAttribPointer(this.attribs.a_Position, 4, gl.FLOAT, false, 0, 0);
 
     gl.enableVertexAttribArray(this.attribs.a_Position);
-    console.log(this.name);
     gl.uniform4f(this.uniforms.u_FillColor, ...this.color.asArray());
+    gl.uniformMatrix4fv(
+      this.uniforms.u_translateMatrix,
+      false,
+      this.translateMatrixData.asArray(),
+    );
     gl.drawArrays(
       this.getRenderMethod(gl),
       this.elementIndex,
       this.vertices.length / 4, // four because x, y, z, w
     );
+
+    super.onEachRenderFrame(gl);
   }
 }
 

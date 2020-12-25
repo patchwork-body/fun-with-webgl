@@ -5,6 +5,7 @@ interface IPolygonParams extends IBaseComponentParams {
 interface ITriangleParams extends IPolygonParams {
   color: Vector4;
   size: number;
+  angle?: number;
 }
 
 type IRectangleParams = ITriangleParams;

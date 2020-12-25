@@ -27,6 +27,7 @@ const rectangle = new Rectangle({
   position: new Vector4(),
   color: new Vector4(1.0, 0.7),
   size: 200,
+  angle: 45,
 });
 
 rectangleScene.attachChildComponent(rectangle);
