@@ -38,8 +38,8 @@ class Polygon extends RenderComponent {
     const width = root.canvasElement.width;
     const height = root.canvasElement.height;
 
-    const ratioX = (width / 2 / 100) * (this.size / 100);
-    const ratioY = (height / 2 / 100) * (this.size / 100);
+    const ratioX = this.size / (width / 2 / 100) / 100;
+    const ratioY = this.size / (height / 2 / 100) / 100;
 
     const step = 360 / this.verticesCount;
 
@@ -49,9 +49,10 @@ class Polygon extends RenderComponent {
       .map(angle => {
         const radianAngle = (Math.PI * angle) / 180;
 
-        const x = ratioX * Math.cos(radianAngle);
-        const y = ratioY * -Math.sin(radianAngle); // minus because OpenGL use right-handed coordinate system
+        const x = ratioX * Math.sin(radianAngle);
+        const y = ratioY * Math.cos(radianAngle);
         const z = 0.0;
+        console.log(x, ratioX, y, ratioY);
 
         return new Vector4(x, y, z, w);
       });

@@ -19,7 +19,7 @@ const initTrianglesGame = (): void => {
     name: 'green-triangle',
     position: new Vector4(),
     color: new Vector4(0.4, 1.0),
-    size: 15,
+    size: 200,
   });
 
   scene.attachChildComponent(triangle);
