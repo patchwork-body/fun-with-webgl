@@ -50,10 +50,10 @@ document.getElementById('rotation')?.addEventListener('input', event => {
 
 document.getElementById('translateX')?.addEventListener('input', event => {
   const element = event.target as HTMLInputElement;
-  triangle.translate(parseInt(element.value), 0.0);
+  triangle.translate(parseFloat(element.value), 0.0);
 });
 
 document.getElementById('translateY')?.addEventListener('input', event => {
   const element = event.target as HTMLInputElement;
-  triangle.translate(0.0, parseInt(element.value));
+  triangle.translate(0.0, parseFloat(element.value));
 });
