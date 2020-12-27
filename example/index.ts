@@ -48,14 +48,19 @@ document.getElementById('rotation')?.addEventListener('input', event => {
   triangle.rotate(parseInt(element.value));
 });
 
+let offsetX = 0.0;
+let offsetY = 0.0;
+
 document.getElementById('translateX')?.addEventListener('input', event => {
   const element = event.target as HTMLInputElement;
-  triangle.translate(parseFloat(element.value), 0.0);
+  offsetX = parseFloat(element.value);
+  triangle.translate(offsetX, offsetY);
 });
 
 document.getElementById('translateY')?.addEventListener('input', event => {
   const element = event.target as HTMLInputElement;
-  triangle.translate(0.0, parseFloat(element.value));
+  offsetY = parseFloat(element.value);
+  triangle.translate(offsetX, offsetY);
 });
 
 document.getElementById('scale')?.addEventListener('input', event => {
