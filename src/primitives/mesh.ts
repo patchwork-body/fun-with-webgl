@@ -57,12 +57,13 @@ class Mesh extends RenderComponent {
   }
 
   componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
-    this.addVertices(this.vertices);
+    this.fillVertciesArray(this.vertices);
     super.componentWillBeRenderedFirstTime(gl);
   }
 
   onEachRenderFrame(gl: WebGL2RenderingContext): void {
-    this.replaceVertices(this.updateVertices());
+    this.fillVertciesArray(this.updateVertices());
+    console.log(this.vertices, this.verticesArray);
 
     gl.bufferData(gl.ARRAY_BUFFER, this.verticesArray, gl.DYNAMIC_DRAW);
     gl.vertexAttribPointer(this.attribs.a_Position, 4, gl.FLOAT, false, 0, 0);

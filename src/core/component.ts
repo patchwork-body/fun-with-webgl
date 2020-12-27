@@ -83,27 +83,18 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
     super({ name, group: 'render' });
   }
 
-  addVertices(vertices: Vector4[]): void {
-    const prevVertices = this.verticesArray;
-    const arraySize = prevVertices.length + vertices.length * 4;
-
+  fillVertciesArray(vertices: Vector4[]): void {
+    const arraySize = vertices.length * 4;
     const nextVertices = new Float32Array(arraySize);
-
-    nextVertices.set(prevVertices, 0);
 
     nextVertices.set(
       vertices.reduce<number[]>((arr, vec) => arr.concat(vec.asArray()), []),
-      prevVertices.length,
+      0,
     );
 
     this.verticesArray = nextVertices;
     this.elementIndex =
       (nextVertices.length - vertices.length * 4) / (vertices.length * 4);
-  }
-
-  replaceVertices(vertices: Vector4[]): void {
-    this.verticesArray = new Float32Array([]);
-    this.addVertices(vertices);
   }
 
   componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
