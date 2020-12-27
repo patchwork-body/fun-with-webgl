@@ -1,6 +1,7 @@
 import {
   createIdentityMatrix,
   createRotationMatrix,
+  createScaleMatrix,
   createTranslationMatrix,
   Matrix4,
 } from '../utils/matrices';
@@ -14,6 +15,7 @@ class Triangle extends Mesh {
 
   private rotationMatrix = createIdentityMatrix();
   private translationMatrix = createIdentityMatrix();
+  private scalingMatrix = createIdentityMatrix();
 
   constructor({ name, position, color, size }: ITriangleParams) {
     super({ name, position });
@@ -38,10 +40,15 @@ class Triangle extends Mesh {
     this.translationMatrix = createTranslationMatrix(x, y);
   }
 
+  scale(x: number, y: number): void {
+    this.translationMatrix = createScaleMatrix(x, y);
+  }
+
   get transformMatrix(): Matrix4 {
     return this._matrix
       .multiply(this.rotationMatrix)
-      .multiply(this.translationMatrix);
+      .multiply(this.translationMatrix)
+      .multiply(this.scalingMatrix);
   }
 }
 

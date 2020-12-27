@@ -57,3 +57,9 @@ document.getElementById('translateY')?.addEventListener('input', event => {
   const element = event.target as HTMLInputElement;
   triangle.translate(0.0, parseFloat(element.value));
 });
+
+document.getElementById('scale')?.addEventListener('input', event => {
+  const element = event.target as HTMLInputElement;
+  const value = parseFloat(element.value);
+  triangle.scale(value, value);
+});
