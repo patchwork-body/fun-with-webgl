@@ -1,8 +1,8 @@
 import { createTranslateMatrix } from '../utils/matrices/translate';
 import { Vector4 } from '../utils/matrices/vector';
-import { Polygon } from './polygon';
+import { Mesh } from './mesh';
 
-class Rectangle extends Polygon {
+class Rectangle extends Mesh {
   private _color!: Vector4;
   private _size!: number;
   private _angle = 0;

@@ -4,7 +4,7 @@ import { RenderComponent, World } from '../core';
 import { NotImplementedError } from '../utils/errors';
 import { Vector4 } from '../utils/matrices/vector';
 
-class Polygon extends RenderComponent {
+class Mesh extends RenderComponent {
   position = new Vector4();
   originPosition = new Vector4();
   renderMethod = null;
@@ -14,7 +14,7 @@ class Polygon extends RenderComponent {
   requireAttribs = ['a_Position'];
   requireUniforms = ['u_FillColor', 'u_TransformMatrix'];
 
-  constructor({ name }: IPolygonParams) {
+  constructor({ name }: IMeshParams) {
     super({ name });
   }
 
@@ -88,4 +88,4 @@ class Polygon extends RenderComponent {
   }
 }
 
-export { Polygon };
+export { Mesh };
