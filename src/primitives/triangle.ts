@@ -1,7 +1,7 @@
 import {
   createIdentityMatrix,
   createRotationMatrix,
-  createTranslateMatrix,
+  createTranslationMatrix,
   Matrix4,
 } from '../utils/matrices';
 import { Vector4 } from '../utils/matrices/vector';
@@ -11,6 +11,9 @@ class Triangle extends Mesh {
   private _color!: Vector4;
   private _size!: number;
   private _matrix = createIdentityMatrix();
+
+  private rotationMatrix = createIdentityMatrix();
+  private translationMatrix = createIdentityMatrix();
 
   constructor({ name, position, color, size }: ITriangleParams) {
     super({ name, position });
@@ -28,16 +31,17 @@ class Triangle extends Mesh {
   }
 
   rotate(angle: number): void {
-    this._matrix = this._matrix.multiply(createRotationMatrix(angle));
+    this.rotationMatrix = createRotationMatrix(angle);
   }
 
   translate(x: number, y: number): void {
-    this._matrix = this._matrix.multiply(createTranslateMatrix(x, y));
-    console.log(this._matrix);
+    this.translationMatrix = createTranslationMatrix(x, y);
   }
 
   get transformMatrix(): Matrix4 {
-    return this._matrix;
+    return this._matrix
+      .multiply(this.rotationMatrix)
+      .multiply(this.translationMatrix);
   }
 }
 

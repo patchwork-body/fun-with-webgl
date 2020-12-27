@@ -1,10 +1,10 @@
-import { createTranslateMatrix } from '../translate';
+import { createTranslationMatrix } from '../translate';
 import { Vector4 } from '../vector';
 
 describe('Matrix4 tests', () => {
   it('should multiply() matrices', () => {
-    const matA = createTranslateMatrix();
-    const matB = createTranslateMatrix(1.0, 0.5);
+    const matA = createTranslationMatrix();
+    const matB = createTranslationMatrix(1.0, 0.5);
 
     const resultMat = matA.multiply(matB);
 

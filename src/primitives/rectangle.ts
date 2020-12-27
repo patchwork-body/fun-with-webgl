@@ -1,5 +1,5 @@
 import { Matrix4 } from '../utils/matrices';
-import { createTranslateMatrix } from '../utils/matrices/translate';
+import { createTranslationMatrix } from '../utils/matrices/translate';
 import { Vector4 } from '../utils/matrices/vector';
 import { Mesh } from './mesh';
 
@@ -33,7 +33,7 @@ class Rectangle extends Mesh {
   }
 
   get transformMatrix(): Matrix4 {
-    return createTranslateMatrix();
+    return createTranslationMatrix();
   }
 
   getRenderMethod(gl: WebGL2RenderingContext): number {
