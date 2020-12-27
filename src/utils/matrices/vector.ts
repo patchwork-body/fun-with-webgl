@@ -5,12 +5,12 @@ class Vector4 implements IVector4 {
     return [this.x, this.y, this.z, this.w];
   }
 
-  multiply(otherVec: Vector4): Vector4 {
-    return new Vector4(
-      this.x * otherVec.x,
-      this.y * otherVec.y,
-      this.z * otherVec.z,
-      this.w * otherVec.w,
+  multiply(otherVec: Vector4): number {
+    return (
+      this.x * otherVec.x +
+      this.y * otherVec.y +
+      this.z * otherVec.z +
+      this.w * otherVec.w
     );
   }
 }

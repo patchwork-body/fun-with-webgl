@@ -42,3 +42,20 @@ document.getElementById('triangle')?.addEventListener('click', () => {
 document.getElementById('rect')?.addEventListener('click', () => {
   world.startScene('rectangle');
 });
+
+document.getElementById('rotation')?.addEventListener('input', event => {
+  const element = event.target as HTMLInputElement;
+  triangle.rotate(parseInt(element.value));
+});
+
+document.getElementById('translateX')?.addEventListener('input', event => {
+  const element = event.target as HTMLInputElement;
+  console.log(element.value);
+  triangle.translate(parseInt(element.value), 0.0);
+});
+
+document.getElementById('translateY')?.addEventListener('input', event => {
+  const element = event.target as HTMLInputElement;
+  console.log(element.value);
+  triangle.translate(0.0, parseInt(element.value));
+});

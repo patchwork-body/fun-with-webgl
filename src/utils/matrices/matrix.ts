@@ -32,8 +32,12 @@ class Matrix4 {
 
   multiply(otherMat: Matrix4): Matrix4 {
     return new Matrix4(
-      new Array(4).fill(null).map((_, index) => {
-        return this.row(index).multiply(otherMat.column(index));
+      new Array(4).fill(null).map((_, rowIndex) => {
+        return new Vector4(
+          ...new Array(4).fill(null).map((_, columnIndex) => {
+            return this.row(rowIndex).multiply(otherMat.column(columnIndex));
+          }),
+        );
       }),
     );
   }
@@ -41,12 +45,7 @@ class Matrix4 {
   apply(vec: Vector4): Vector4 {
     return new Vector4(
       ...vec.asArray().map((_, index) => {
-        return (
-          vec.x * this.column(index).x +
-          vec.y * this.column(index).y +
-          vec.z * this.column(index).z +
-          vec.w * this.column(index).w
-        );
+        return vec.multiply(this.column(index));
       }),
     );
   }

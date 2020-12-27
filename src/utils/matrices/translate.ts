@@ -1,4 +1,4 @@
-import { Vector4 } from '..';
+import { Vector4 } from './vector';
 import { Matrix4 } from './matrix';
 
 const createTranslateMatrix = (x = 0.0, y = 0.0, z = 0.0): Matrix4 => {
