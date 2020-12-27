@@ -28,8 +28,13 @@ class Rectangle extends Mesh {
     return this._angle;
   }
 
-  get verticesCount(): number {
-    return 4;
+  get vertices(): Vector4[] {
+    return [
+      new Vector4(-0.5, -0.5),
+      new Vector4(0.5, -0.5),
+      new Vector4(-0.5, 0.5),
+      new Vector4(0.5, 0.5),
+    ];
   }
 
   get transformMatrix(): Matrix4 {
@@ -37,7 +42,7 @@ class Rectangle extends Mesh {
   }
 
   getRenderMethod(gl: WebGL2RenderingContext): number {
-    return gl.TRIANGLE_FAN;
+    return gl.TRIANGLE_STRIP;
   }
 }
 

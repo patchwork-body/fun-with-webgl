@@ -32,6 +32,14 @@ class Triangle extends Mesh {
     return this._size;
   }
 
+  get vertices(): Vector4[] {
+    return [
+      new Vector4(0.0, 0.5),
+      new Vector4(0.5, 0.0),
+      new Vector4(-0.5, 0.0),
+    ];
+  }
+
   rotate(angle: number): void {
     this.rotationMatrix = createRotationMatrix(angle);
   }

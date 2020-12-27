@@ -72,7 +72,7 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   requireAttribs: string[] = [];
   requireUniforms: string[] = [];
 
-  vertices = new Float32Array([]);
+  verticesArray = new Float32Array([]);
   elementIndex = 0;
   program!: WebGLProgram;
   buffer!: WebGLBuffer;
@@ -84,7 +84,7 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
   }
 
   addVertices(vertices: Vector4[]): void {
-    const prevVertices = this.vertices;
+    const prevVertices = this.verticesArray;
     const arraySize = prevVertices.length + vertices.length * 4;
 
     const nextVertices = new Float32Array(arraySize);
@@ -96,13 +96,13 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
       prevVertices.length,
     );
 
-    this.vertices = nextVertices;
+    this.verticesArray = nextVertices;
     this.elementIndex =
       (nextVertices.length - vertices.length * 4) / (vertices.length * 4);
   }
 
   replaceVertices(vertices: Vector4[]): void {
-    this.vertices = new Float32Array([]);
+    this.verticesArray = new Float32Array([]);
     this.addVertices(vertices);
   }
 

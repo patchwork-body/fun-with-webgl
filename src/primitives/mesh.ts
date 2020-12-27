@@ -1,9 +1,10 @@
 import vertexShaderSource from './shaders/polygon.vs';
 import fragmentShaderSource from './shaders/polygon.fs';
-import { RenderComponent, World } from '../core';
+import { RenderComponent } from '../core';
 import { Vector4 } from '../utils/matrices/vector';
 import { Matrix4 } from '../utils/matrices';
 import { createIdentityMatrix } from '../utils/matrices/identity';
+import { NotImplementedError } from '../utils';
 
 class Mesh extends RenderComponent {
   renderMethod = null;
@@ -15,10 +16,6 @@ class Mesh extends RenderComponent {
 
   constructor({ name }: IMeshParams) {
     super({ name });
-  }
-
-  get verticesCount(): number {
-    return 3;
   }
 
   get position(): Vector4 {
@@ -41,6 +38,10 @@ class Mesh extends RenderComponent {
     return 0;
   }
 
+  get vertices(): Vector4[] {
+    throw new NotImplementedError();
+  }
+
   get transformMatrix(): Matrix4 {
     return createIdentityMatrix();
   }
@@ -49,40 +50,21 @@ class Mesh extends RenderComponent {
     return gl.TRIANGLES;
   }
 
-  createVerticies(): Vector4[] {
-    const w = 1.0;
-    const root = this.getRootComponent() as World;
-
-    const width = root.canvasElement.clientWidth;
-
-    const radius = this.size / (width / 2 / 100) / 100;
-
-    const step = 360 / this.verticesCount;
-
-    return new Array(this.verticesCount)
-      .fill(null)
-      .map((_, index) => step * index + this.angle)
-      .map(angle => {
-        const radianAngle = (Math.PI * angle) / 180;
-
-        const x = radius * Math.sin(radianAngle);
-        const y = radius * Math.cos(radianAngle);
-        const z = 0.0;
-
-        return new Vector4(x, y, z, w);
-      });
-  }
-
   updateVertices(): Vector4[] {
-    return this.createVerticies().map(vertex => {
+    return this.vertices.map(vertex => {
       return this.transformMatrix.apply(vertex);
     });
+  }
+
+  componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
+    this.addVertices(this.vertices);
+    super.componentWillBeRenderedFirstTime(gl);
   }
 
   onEachRenderFrame(gl: WebGL2RenderingContext): void {
     this.replaceVertices(this.updateVertices());
 
-    gl.bufferData(gl.ARRAY_BUFFER, this.vertices, gl.DYNAMIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, this.verticesArray, gl.DYNAMIC_DRAW);
     gl.vertexAttribPointer(this.attribs.a_Position, 4, gl.FLOAT, false, 0, 0);
 
     gl.enableVertexAttribArray(this.attribs.a_Position);
@@ -90,7 +72,7 @@ class Mesh extends RenderComponent {
     gl.drawArrays(
       this.getRenderMethod(gl),
       this.elementIndex,
-      this.vertices.length / 4, // four values per vertex
+      this.vertices.length,
     );
 
     super.onEachRenderFrame(gl);
