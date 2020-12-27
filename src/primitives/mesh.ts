@@ -38,8 +38,8 @@ class Mesh extends RenderComponent {
     const w = 1.0;
     const root = this.getRootComponent() as World;
 
-    const width = root.canvasElement.width;
-    const height = root.canvasElement.height;
+    const width = root.canvasElement.clientWidth;
+    const height = root.canvasElement.clientHeight;
 
     const ratioX = this.size / (width / 2 / 100) / 100;
     const ratioY = this.size / (height / 2 / 100) / 100;
