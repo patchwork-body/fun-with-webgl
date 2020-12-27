@@ -1,3 +1,4 @@
+import { Matrix4 } from '../utils/matrices';
 import { createTranslateMatrix } from '../utils/matrices/translate';
 import { Vector4 } from '../utils/matrices/vector';
 import { Mesh } from './mesh';
@@ -31,7 +32,7 @@ class Rectangle extends Mesh {
     return 4;
   }
 
-  get translateMatrixData(): Float32Array {
+  get transformMatrix(): Matrix4 {
     return createTranslateMatrix();
   }
 

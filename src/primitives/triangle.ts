@@ -1,3 +1,4 @@
+import { Matrix4 } from '../utils/matrices';
 import { createTranslateMatrix } from '../utils/matrices/translate';
 import { Vector4 } from '../utils/matrices/vector';
 import { Mesh } from './mesh';
@@ -21,16 +22,8 @@ class Triangle extends Mesh {
     return this._size;
   }
 
-  get verticesCount(): number {
-    return 3;
-  }
-
-  get translateMatrixData(): Float32Array {
+  get transformMatrix(): Matrix4 {
     return createTranslateMatrix();
-  }
-
-  getRenderMethod(gl: WebGL2RenderingContext): number {
-    return gl.TRIANGLES;
   }
 }
 

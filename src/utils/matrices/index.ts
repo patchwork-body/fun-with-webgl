@@ -1,3 +1,4 @@
+export * from './identity';
 export * from './rotate';
 export * from './scale';
 export * from './translate';

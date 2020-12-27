@@ -101,6 +101,11 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
       (nextVertices.length - vertices.length * 4) / (vertices.length * 4);
   }
 
+  replaceVertices(vertices: Vector4[]): void {
+    this.vertices = new Float32Array([]);
+    this.addVertices(vertices);
+  }
+
   componentWillBeRenderedFirstTime(gl: WebGL2RenderingContext): void {
     const vShader = createVertextShader(gl, this.vertexShaderSource);
     const fShader = createFragmentShader(gl, this.fragmentShaderSource);
@@ -122,8 +127,6 @@ class RenderComponent extends BaseComponent<IBaseComponent, IBaseComponent> {
         uniform,
       ) as WebGLUniformLocation;
     });
-
-    gl.bufferData(gl.ARRAY_BUFFER, this.vertices, gl.DYNAMIC_DRAW);
 
     super.componentWillBeRenderedFirstTime(gl);
   }
