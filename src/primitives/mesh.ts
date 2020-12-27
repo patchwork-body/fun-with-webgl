@@ -54,10 +54,8 @@ class Mesh extends RenderComponent {
     const root = this.getRootComponent() as World;
 
     const width = root.canvasElement.clientWidth;
-    const height = root.canvasElement.clientHeight;
 
-    const ratioX = this.size / (width / 2 / 100) / 100;
-    const ratioY = this.size / (height / 2 / 100) / 100;
+    const radius = this.size / (width / 2 / 100) / 100;
 
     const step = 360 / this.verticesCount;
 
@@ -67,8 +65,8 @@ class Mesh extends RenderComponent {
       .map(angle => {
         const radianAngle = (Math.PI * angle) / 180;
 
-        const x = ratioX * Math.sin(radianAngle);
-        const y = ratioY * Math.cos(radianAngle);
+        const x = radius * Math.sin(radianAngle);
+        const y = radius * Math.cos(radianAngle);
         const z = 0.0;
 
         return new Vector4(x, y, z, w);
