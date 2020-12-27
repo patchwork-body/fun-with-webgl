@@ -5,7 +5,7 @@ import {
   createVertextShader,
   createWebGLProgram,
 } from '../utils/shader';
-import { Vector4 } from '../utils/vector';
+import { Vector4 } from '../utils/matrices/vector';
 
 class BaseComponent<
   TParentComponent extends IBaseComponent,

@@ -1,4 +1,4 @@
-import { Vector4 } from '../utils';
+import { Vector4 } from '..';
 
 const createTranslateMatrix = (x = 0.0, y = 0.0, z = 0.0): Float32Array => {
   return new Float32Array([

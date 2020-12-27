@@ -1,5 +1,5 @@
-import { createTranslateMatrix } from '../transformations/translate';
-import { Vector4 } from '../utils/vector';
+import { createTranslateMatrix } from '../utils/matrices/translate';
+import { Vector4 } from '../utils/matrices/vector';
 import { Polygon } from './polygon';
 
 class Rectangle extends Polygon {
